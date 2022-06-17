@@ -1,6 +1,7 @@
 package com.tw.todo.controller;
 
 import com.tw.todo.exception.DuplicateTodoException;
+import com.tw.todo.exception.TodoNotFoundException;
 import com.tw.todo.model.Todo;
 import com.tw.todo.service.TodoService;
 import org.springframework.http.HttpStatus;
@@ -29,10 +30,22 @@ public class TodoController {
         return todoService.getAllTodos();
     }
 
+    @GetMapping
+    @RequestMapping("/{id}")
+    public Todo getTodoById(@PathVariable long id) throws TodoNotFoundException {
+        return todoService.getTodoById(id);
+    }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleException(DuplicateTodoException exception) {
         return "Duplicate Todo Title";
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleException(TodoNotFoundException exception) {
+        return "Todo Not Found";
     }
 
 }

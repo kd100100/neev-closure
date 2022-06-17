@@ -53,4 +53,14 @@ public class TodoRepositoryTest {
 
         assertThat(allTodos.size(), is(equalTo(todos.size())));
     }
+
+    @Test
+    public void shouldBeAbleToGetTodoById() {
+        Todo savedTodo = todoRepository.save(todo);
+        long savedTodoId = savedTodo.getId();
+
+        Todo foundTodo = todoRepository.findById(savedTodoId).get();
+
+        assertThat(foundTodo.getTitle(), is(equalTo(savedTodo.getTitle())));
+    }
 }

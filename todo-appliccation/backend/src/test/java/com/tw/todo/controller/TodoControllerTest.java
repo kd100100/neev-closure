@@ -2,6 +2,7 @@ package com.tw.todo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tw.todo.exception.DuplicateTodoException;
+import com.tw.todo.exception.TodoNotFoundException;
 import com.tw.todo.model.Todo;
 import com.tw.todo.service.impl.TodoServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,5 +93,27 @@ public class TodoControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", is(equalTo(todos.size()))));
+    }
+
+    @Test
+    public void shouldBeAbleToGetTodoById() throws Exception {
+        given(todoService.getTodoById(ArgumentMatchers.anyLong())).willReturn(todo);
+
+        ResultActions response = mockMvc.perform(get("/api/todos/1"));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is(equalTo(todo.getTitle()))))
+                .andExpect(jsonPath("$.isCompleted", is(equalTo(todo.getIsCompleted()))))
+                .andExpect(jsonPath("$.isPriority", is(equalTo(todo.getIsPriority()))))
+                .andExpect(jsonPath("$.isEdited", is(equalTo(todo.getIsEdited()))));
+    }
+
+    @Test
+    public void shouldNotReturnTodoIfIdNotFound() throws Exception {
+        given(todoService.getTodoById(ArgumentMatchers.anyLong())).willThrow(new TodoNotFoundException());
+
+        ResultActions response = mockMvc.perform(get("/api/todos/1"));
+
+        response.andExpect(status().isNotFound());
     }
 }

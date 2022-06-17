@@ -1,6 +1,7 @@
 package com.tw.todo.service.impl;
 
 import com.tw.todo.exception.DuplicateTodoException;
+import com.tw.todo.exception.TodoNotFoundException;
 import com.tw.todo.model.Todo;
 import com.tw.todo.repository.TodoRepository;
 import com.tw.todo.service.TodoService;
@@ -31,6 +32,16 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public List<Todo> getAllTodos() {
         return todoRepository.findAll();
+    }
+
+    @Override
+    public Todo getTodoById(long todoId) throws TodoNotFoundException {
+        Optional<Todo> todo = todoRepository.findById(todoId);
+        if (todo.isEmpty()) {
+            throw new TodoNotFoundException();
+        }
+
+        return todo.get();
     }
 
 }

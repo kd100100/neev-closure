@@ -1,6 +1,7 @@
 package com.tw.todo.service;
 
 import com.tw.todo.exception.DuplicateTodoException;
+import com.tw.todo.exception.TodoNotFoundException;
 import com.tw.todo.model.Todo;
 import com.tw.todo.repository.TodoRepository;
 import com.tw.todo.service.impl.TodoServiceImpl;
@@ -74,5 +75,14 @@ public class TodoServiceTest {
         List<Todo> allTodos = todoService.getAllTodos();
 
         assertThat(allTodos.size(), is(equalTo(todos.size())));
+    }
+
+    @Test
+    public void shouldBeAbleToGetTodoById() throws TodoNotFoundException {
+        given(todoRepository.findById(1L)).willReturn(Optional.of(todo));
+
+        Todo todoById = todoService.getTodoById(1L);
+
+        assertThat(todoById.getTitle(), is(equalTo(todo.getTitle())));
     }
 }
