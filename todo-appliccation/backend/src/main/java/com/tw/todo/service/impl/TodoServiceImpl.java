@@ -21,12 +21,16 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo createTodo(Todo todo) throws DuplicateTodoException {
-        Optional<Todo> existingTodo = todoRepository.findByTitle(todo.getTitle());
+        checkIfDuplicateTodoExists(todo.getTitle());
+
+        return todoRepository.save(todo);
+    }
+
+    private void checkIfDuplicateTodoExists(String todoTitle) throws DuplicateTodoException {
+        Optional<Todo> existingTodo = todoRepository.findByTitle(todoTitle);
         if (existingTodo.isPresent()) {
             throw new DuplicateTodoException();
         }
-
-        return todoRepository.save(todo);
     }
 
     @Override
@@ -36,29 +40,34 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo getTodoById(long todoId) throws TodoNotFoundException {
-        Optional<Todo> todo = todoRepository.findById(todoId);
-        if (todo.isEmpty()) {
-            throw new TodoNotFoundException();
-        }
+        Todo todo = checkIfTodoExists(todoId);
 
-        return todo.get();
+        return todo;
     }
 
     @Override
     public Todo updateTodo(long todoId, Todo todo) throws TodoNotFoundException {
+        Todo existingTodo = checkIfTodoExists(todoId);
+
+        updateTodoDetails(todo, existingTodo);
+
+        return todoRepository.save(existingTodo);
+    }
+
+    private void updateTodoDetails(Todo todo, Todo existingTodo) {
+        existingTodo.setTitle(todo.getTitle());
+        existingTodo.setIsCompleted(todo.getIsCompleted());
+        existingTodo.setIsPriority(todo.getIsPriority());
+        existingTodo.setIsEdited(todo.getIsEdited());
+        existingTodo.setCreatedAt(todo.getCreatedAt());
+    }
+
+    private Todo checkIfTodoExists(long todoId) throws TodoNotFoundException {
         Optional<Todo> existingTodo = todoRepository.findById(todoId);
         if (existingTodo.isEmpty()) {
             throw new TodoNotFoundException();
         }
-
-        Todo existingTodoObject = existingTodo.get();
-        existingTodoObject.setTitle(todo.getTitle());
-        existingTodoObject.setIsCompleted(todo.getIsCompleted());
-        existingTodoObject.setIsPriority(todo.getIsPriority());
-        existingTodoObject.setIsEdited(todo.getIsEdited());
-        existingTodoObject.setCreatedAt(todo.getCreatedAt());
-
-        return todoRepository.save(existingTodoObject);
+        return existingTodo.get();
     }
 
 }
