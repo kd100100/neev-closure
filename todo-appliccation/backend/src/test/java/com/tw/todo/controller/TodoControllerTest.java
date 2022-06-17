@@ -1,6 +1,7 @@
 package com.tw.todo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tw.todo.exception.DuplicateTodoException;
 import com.tw.todo.model.Todo;
 import com.tw.todo.service.impl.TodoServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -51,5 +52,25 @@ public class TodoControllerTest {
                 .andExpect(jsonPath("$.isCompleted", is(equalTo(todo.getIsCompleted()))))
                 .andExpect(jsonPath("$.isPriority", is(equalTo(todo.getIsPriority()))))
                 .andExpect(jsonPath("$.isEdited", is(equalTo(todo.getIsEdited()))));
+    }
+
+
+
+    @Test
+    public void shouldNotBeAbleToSaveDuplicateTodo() throws Exception {
+        String todoTitle = "Todo Title";
+        boolean isCompleted = false;
+        boolean isPriority = false;
+        boolean isEdited = false;
+        String created_at = "2020-01-01T00:00:00.000Z";
+        Todo todo = new Todo(todoTitle, isCompleted, isPriority, isEdited, created_at);
+        given(todoService.createTodo(ArgumentMatchers.any(Todo.class)))
+                .willThrow(new DuplicateTodoException());
+
+        ResultActions response = mockMvc.perform(post("/api/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(todo)));
+
+        response.andExpect(status().isBadRequest());
     }
 }
