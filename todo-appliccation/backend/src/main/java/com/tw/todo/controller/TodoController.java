@@ -41,8 +41,9 @@ public class TodoController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTodo(@PathVariable long id) {
+    public String deleteTodo(@PathVariable long id) throws TodoNotFoundException {
         todoService.deleteTodo(id);
+        return "Todo Deleted Successfully!";
     }
 
     @ExceptionHandler

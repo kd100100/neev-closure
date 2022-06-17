@@ -116,12 +116,22 @@ public class TodoServiceTest {
     }
 
     @Test
-    public void shouldBeAbleToDeleteTodo() {
+    public void shouldBeAbleToDeleteTodo() throws TodoNotFoundException {
+        given(todoRepository.findById(1L)).willReturn(Optional.of(todo));
         willDoNothing().given(todoRepository).deleteById(1L);
 
         todoService.deleteTodo(1L);
         List<Todo> allTodos = todoService.getAllTodos();
 
         assertThat(allTodos.size(), is(equalTo(0)));
+    }
+
+    @Test
+    public void shouldNotBeAbleToDeleteTodoIfNotFound() {
+        given(todoRepository.findById(1L)).willReturn(Optional.empty());
+
+        assertThrows(TodoNotFoundException.class, () -> {
+            todoService.deleteTodo(1L);
+        });
     }
 }

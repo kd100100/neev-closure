@@ -16,5 +16,5 @@ public interface TodoService {
 
     Todo updateTodo(long todoId, Todo todo) throws TodoNotFoundException;
 
-    void deleteTodo(long todoId);
+    void deleteTodo(long todoId) throws TodoNotFoundException;
 }

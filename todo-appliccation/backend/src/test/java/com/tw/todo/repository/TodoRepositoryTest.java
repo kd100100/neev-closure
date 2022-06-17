@@ -67,7 +67,6 @@ public class TodoRepositoryTest {
     @Test
     public void shouldBeAbleToUpdateTodo() {
         Todo savedTodo = todoRepository.save(todo);
-        long savedTodoId = savedTodo.getId();
 
         String newTitle = "New Todo Title";
         savedTodo.setTitle(newTitle);
