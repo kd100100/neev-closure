@@ -14,10 +14,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -72,5 +75,22 @@ public class TodoControllerTest {
                 .content(objectMapper.writeValueAsString(todo)));
 
         response.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldBeAbleToGetAllTodos() throws Exception {
+        String todoTitle = "Another Todo Title";
+        boolean isCompleted = false;
+        boolean isPriority = false;
+        boolean isEdited = false;
+        String created_at = "2020-01-01T00:00:00.000Z";
+        Todo anotherTodo = new Todo(todoTitle, isCompleted, isPriority, isEdited, created_at);
+        List<Todo> todos = List.of(todo, anotherTodo);
+        given(todoService.getAllTodos()).willReturn(todos);
+
+        ResultActions response = mockMvc.perform(get("/api/todos"));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(equalTo(todos.size()))));
     }
 }

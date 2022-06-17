@@ -6,6 +6,8 @@ import com.tw.todo.service.TodoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/todos")
 public class TodoController {
@@ -20,6 +22,11 @@ public class TodoController {
     @ResponseStatus(HttpStatus.CREATED)
     public Todo createTodo(@RequestBody Todo todo) throws DuplicateTodoException {
         return todoService.createTodo(todo);
+    }
+
+    @GetMapping
+    public List<Todo> getAllTodos() {
+        return todoService.getAllTodos();
     }
 
     @ExceptionHandler

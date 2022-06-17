@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -57,5 +58,21 @@ public class TodoServiceTest {
         assertThrows(DuplicateTodoException.class, () -> {
             todoService.createTodo(todo);
         });
+    }
+
+    @Test
+    public void shouldBeAbleToGetAllTodos() {
+        String todoTitle = "Another Todo Title";
+        boolean isCompleted = false;
+        boolean isPriority = false;
+        boolean isEdited = false;
+        String created_at = "2020-01-01T00:00:00.000Z";
+        Todo anotherTodo = new Todo(todoTitle, isCompleted, isPriority, isEdited, created_at);
+        List<Todo> todos = List.of(todo, anotherTodo);
+        given(todoRepository.findAll()).willReturn(todos);
+
+        List<Todo> allTodos = todoService.getAllTodos();
+
+        assertThat(allTodos.size(), is(equalTo(todos.size())));
     }
 }

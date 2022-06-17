@@ -6,6 +6,7 @@ import com.tw.todo.repository.TodoRepository;
 import com.tw.todo.service.TodoService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +26,11 @@ public class TodoServiceImpl implements TodoService {
         }
 
         return todoRepository.save(todo);
+    }
+
+    @Override
+    public List<Todo> getAllTodos() {
+        return todoRepository.findAll();
     }
 
 }
