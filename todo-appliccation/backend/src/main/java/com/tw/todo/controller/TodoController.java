@@ -27,4 +27,5 @@ public class TodoController {
     public String handleException(DuplicateTodoException exception) {
         return "Duplicate Todo Title";
     }
+
 }

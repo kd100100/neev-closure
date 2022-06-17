@@ -4,6 +4,7 @@ import com.tw.todo.exception.DuplicateTodoException;
 import com.tw.todo.model.Todo;
 import com.tw.todo.repository.TodoRepository;
 import com.tw.todo.service.impl.TodoServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,14 +28,20 @@ public class TodoServiceTest {
     @InjectMocks
     private TodoServiceImpl todoService;
 
-    @Test
-    public void shouldBeAbleToSaveNewTodoDetails() throws DuplicateTodoException {
+    private Todo todo;
+
+    @BeforeEach
+    public void setup() {
         String todoTitle = "Todo Title";
         boolean isCompleted = false;
         boolean isPriority = false;
         boolean isEdited = false;
         String created_at = "2020-01-01T00:00:00.000Z";
-        Todo todo = new Todo(todoTitle, isCompleted, isPriority, isEdited, created_at);
+        todo = new Todo(todoTitle, isCompleted, isPriority, isEdited, created_at);
+    }
+
+    @Test
+    public void shouldBeAbleToSaveNewTodoDetails() throws DuplicateTodoException {
         given(todoRepository.findByTitle(todo.getTitle())).willReturn(Optional.empty());
         given(todoRepository.save(todo)).willReturn(todo);
 
@@ -45,12 +52,6 @@ public class TodoServiceTest {
 
     @Test
     public void shouldNotBeAbleToSaveDuplicateTodo() {
-        String todoTitle = "Todo Title";
-        boolean isCompleted = false;
-        boolean isPriority = false;
-        boolean isEdited = false;
-        String created_at = "2020-01-01T00:00:00.000Z";
-        Todo todo = new Todo(todoTitle, isCompleted, isPriority, isEdited, created_at);
         given(todoRepository.findByTitle(todo.getTitle())).willReturn(Optional.of(todo));
 
         assertThrows(DuplicateTodoException.class, () -> {
