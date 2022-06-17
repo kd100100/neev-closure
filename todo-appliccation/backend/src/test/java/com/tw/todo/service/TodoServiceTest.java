@@ -87,11 +87,30 @@ public class TodoServiceTest {
     }
 
     @Test
-    public void shouldBeAbleToUpdateTodo() {
+    public void shouldNotReturnTodoIfIdNotFound() {
+        given(todoRepository.findById(1L)).willReturn(Optional.empty());
+
+        assertThrows(TodoNotFoundException.class, () -> {
+            todoService.getTodoById(1L);
+        });
+    }
+
+    @Test
+    public void shouldBeAbleToUpdateTodo() throws TodoNotFoundException {
+        given(todoRepository.findById(1L)).willReturn(Optional.of(todo));
         given(todoRepository.save(todo)).willReturn(todo);
 
         Todo updatedTodo = todoService.updateTodo(1L, todo);
 
         assertThat(updatedTodo.getTitle(), is(equalTo(todo.getTitle())));
+    }
+
+    @Test
+    public void shouldNotBeAbleToUpdateTodoIfNotFound() {
+        given(todoRepository.findById(1L)).willReturn(Optional.empty());
+
+        assertThrows(TodoNotFoundException.class, () -> {
+            todoService.updateTodo(1L, todo);
+        });
     }
 }

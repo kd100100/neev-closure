@@ -14,5 +14,5 @@ public interface TodoService {
 
     Todo getTodoById(long todoId) throws TodoNotFoundException;
 
-    Todo updateTodo(long todoId, Todo todo);
+    Todo updateTodo(long todoId, Todo todo) throws TodoNotFoundException;
 }

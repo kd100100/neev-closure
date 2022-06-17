@@ -36,7 +36,7 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public Todo updateTodo(@PathVariable long id, @RequestBody Todo todo) {
+    public Todo updateTodo(@PathVariable long id, @RequestBody Todo todo) throws TodoNotFoundException {
         return todoService.updateTodo(id, todo);
     }
 

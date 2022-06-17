@@ -134,4 +134,16 @@ public class TodoControllerTest {
                 .andExpect(jsonPath("$.isPriority", is(equalTo(todo.getIsPriority()))))
                 .andExpect(jsonPath("$.isEdited", is(equalTo(todo.getIsEdited()))));
     }
+
+    @Test
+    public void shouldNotBeAbleToUpdateTodoIfNotFound() throws Exception {
+        given(todoService.updateTodo(ArgumentMatchers.anyLong(), ArgumentMatchers.any(Todo.class)))
+                .willThrow(new TodoNotFoundException());
+
+        ResultActions response = mockMvc.perform(put("/api/todos/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(todo)));
+
+        response.andExpect(status().isNotFound());
+    }
 }
