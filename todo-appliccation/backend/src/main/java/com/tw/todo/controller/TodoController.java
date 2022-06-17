@@ -30,10 +30,14 @@ public class TodoController {
         return todoService.getAllTodos();
     }
 
-    @GetMapping
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public Todo getTodoById(@PathVariable long id) throws TodoNotFoundException {
         return todoService.getTodoById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Todo updateTodo(@PathVariable long id, @RequestBody Todo todo) {
+        return todoService.updateTodo(id, todo);
     }
 
     @ExceptionHandler

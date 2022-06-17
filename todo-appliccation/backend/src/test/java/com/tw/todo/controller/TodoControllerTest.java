@@ -1,5 +1,6 @@
 package com.tw.todo.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tw.todo.exception.DuplicateTodoException;
 import com.tw.todo.exception.TodoNotFoundException;
@@ -22,6 +23,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -115,5 +117,21 @@ public class TodoControllerTest {
         ResultActions response = mockMvc.perform(get("/api/todos/1"));
 
         response.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldBeAbleToUpdateTodo() throws Exception {
+        given(todoService.updateTodo(ArgumentMatchers.anyLong(), ArgumentMatchers.any(Todo.class)))
+                .willAnswer(invocation -> invocation.getArgument(1));
+
+        ResultActions response = mockMvc.perform(put("/api/todos/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(todo)));
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is(equalTo(todo.getTitle()))))
+                .andExpect(jsonPath("$.isCompleted", is(equalTo(todo.getIsCompleted()))))
+                .andExpect(jsonPath("$.isPriority", is(equalTo(todo.getIsPriority()))))
+                .andExpect(jsonPath("$.isEdited", is(equalTo(todo.getIsEdited()))));
     }
 }

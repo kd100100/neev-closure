@@ -85,4 +85,13 @@ public class TodoServiceTest {
 
         assertThat(todoById.getTitle(), is(equalTo(todo.getTitle())));
     }
+
+    @Test
+    public void shouldBeAbleToUpdateTodo() {
+        given(todoRepository.save(todo)).willReturn(todo);
+
+        Todo updatedTodo = todoService.updateTodo(1L, todo);
+
+        assertThat(updatedTodo.getTitle(), is(equalTo(todo.getTitle())));
+    }
 }

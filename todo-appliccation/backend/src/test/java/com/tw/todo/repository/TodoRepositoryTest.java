@@ -63,4 +63,16 @@ public class TodoRepositoryTest {
 
         assertThat(foundTodo.getTitle(), is(equalTo(savedTodo.getTitle())));
     }
+
+    @Test
+    public void shouldBeAbleToUpdateTodo() {
+        Todo savedTodo = todoRepository.save(todo);
+        long savedTodoId = savedTodo.getId();
+
+        String newTitle = "New Todo Title";
+        savedTodo.setTitle(newTitle);
+        Todo updatedTodo = todoRepository.save(savedTodo);
+
+        assertThat(updatedTodo.getTitle(), is(equalTo(newTitle)));
+    }
 }
