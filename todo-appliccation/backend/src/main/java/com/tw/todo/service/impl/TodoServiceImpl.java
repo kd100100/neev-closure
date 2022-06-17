@@ -54,6 +54,11 @@ public class TodoServiceImpl implements TodoService {
         return todoRepository.save(existingTodo);
     }
 
+    @Override
+    public void deleteTodo(long todoId) {
+        todoRepository.deleteById(todoId);
+    }
+
     private void updateTodoDetails(Todo todo, Todo existingTodo) {
         existingTodo.setTitle(todo.getTitle());
         existingTodo.setIsCompleted(todo.getIsCompleted());

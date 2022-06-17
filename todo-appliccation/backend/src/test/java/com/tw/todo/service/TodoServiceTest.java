@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 
 @ExtendWith(MockitoExtension.class)
 public class TodoServiceTest {
@@ -112,5 +113,15 @@ public class TodoServiceTest {
         assertThrows(TodoNotFoundException.class, () -> {
             todoService.updateTodo(1L, todo);
         });
+    }
+
+    @Test
+    public void shouldBeAbleToDeleteTodo() {
+        willDoNothing().given(todoRepository).deleteById(1L);
+
+        todoService.deleteTodo(1L);
+        List<Todo> allTodos = todoService.getAllTodos();
+
+        assertThat(allTodos.size(), is(equalTo(0)));
     }
 }

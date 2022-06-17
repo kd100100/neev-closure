@@ -21,9 +21,8 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -145,5 +144,14 @@ public class TodoControllerTest {
                 .content(objectMapper.writeValueAsString(todo)));
 
         response.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldBeAbleToDeleteTodo() throws Exception {
+        willDoNothing().given(todoService).deleteTodo(ArgumentMatchers.anyLong());
+
+        ResultActions response = mockMvc.perform(delete("/api/todos/1"));
+
+        response.andExpect(status().isOk());
     }
 }

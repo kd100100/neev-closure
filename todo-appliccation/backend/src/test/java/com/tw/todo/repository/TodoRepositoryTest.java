@@ -75,4 +75,14 @@ public class TodoRepositoryTest {
 
         assertThat(updatedTodo.getTitle(), is(equalTo(newTitle)));
     }
+
+    @Test
+    public void shouldBeAbleToDeleteTodo() {
+        Todo savedTodo = todoRepository.save(todo);
+        long savedTodoId = savedTodo.getId();
+
+        todoRepository.deleteById(savedTodoId);
+
+        assertThat(todoRepository.findById(savedTodoId).isPresent(), is(false));
+    }
 }

@@ -40,6 +40,11 @@ public class TodoController {
         return todoService.updateTodo(id, todo);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteTodo(@PathVariable long id) {
+        todoService.deleteTodo(id);
+    }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleException(DuplicateTodoException exception) {
