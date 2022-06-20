@@ -1,0 +1,38 @@
+.header {
+    height: 75px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 100px;
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+}
+.header__logoImage {
+    height: 60px;
+    width: 60px;
+    margin-right: 10px;
+}
+.header__logoFirstPart, .header__logoSecondPart {
+    font-weight: 700;
+    font-size: xx-large;
+}
+.header__logoFirstPart {
+    color: #0E9594;
+}
+.header__logoSecondPart {
+    color: #F2542D;
+}
+
+.header__addButton {
+    border: none;
+    background-color: rgba(242, 84, 45, 0.3);
+    color: #1D1B1B;
+    font-size: x-large;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}

@@ -23,11 +23,15 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: "babel-loader",
+                use: ["babel-loader"],
             },
             {
                 test: /\.css$/i,
                 use: ["style-loader", "css-loader"],
+            },
+            {
+                test: /\.png?$/,
+                use: ["file-loader"],
             },
         ],
     },
