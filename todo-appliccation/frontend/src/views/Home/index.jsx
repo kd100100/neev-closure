@@ -1,5 +1,6 @@
 import React from "react";
 import "../../assets/css/Home.css";
+import Summary from "../../components/Summary";
 import TaskList from "../../components/TaskList";
 
 const Home = () => {
@@ -13,13 +14,9 @@ const Home = () => {
             {/* Summaries */}
             <div className="home__summaries">
                 {/* Last week Summary */}
-                <div className="home__summariesLastWeek">
-                    Last week Summary
-                </div>
+                <Summary />
                 {/* All Time Summary */}
-                <div className="home__summariesAllTime">
-                    All Time Summary
-                </div>
+                <Summary />
             </div>
         </div>
     );

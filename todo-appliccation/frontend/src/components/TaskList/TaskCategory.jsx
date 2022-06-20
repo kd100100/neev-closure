@@ -7,6 +7,7 @@ const TaskCategory = () => {
         <h2 className='taskCategory__title'>Priority Tasks</h2>
         <Task />
         <Task />
+        <Task />
     </div>
   )
 }
