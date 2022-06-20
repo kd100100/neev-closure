@@ -1,0 +1,14 @@
+.home {
+    padding: 0 100px;
+    height: calc(100vh - 75px);
+    display: flex;
+}
+
+.home__tasksList {
+    width: 60%;
+    padding: 40px 20px;
+}
+
+.home__summaries {
+    flex: 1;
+}

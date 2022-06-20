@@ -1,0 +1,49 @@
+.taskList {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 50px rgba(115, 115, 115, 0.1);
+    border-radius: 8px;
+    padding: 30px 30px;
+    height: calc(100vh - 220px);
+}
+
+.taskCategory__title {
+    font-size: x-large;
+    font-weight: 500;
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    background-color: rgba(242, 84, 45, 0.3);
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: larger;
+    margin: 10px 0;
+}
+.task__checkbox {
+    margin-right: 10px;
+}
+.task__checkbox img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.task__title {
+    flex: 1;
+}
+.task__actionButtons {
+    display: flex;
+    align-items: center;
+}
+.task__actionButton {
+    border: 0;
+    background: transparent;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.task__actionButton img {
+    width: 20px;
+    height: 20px;
+}
