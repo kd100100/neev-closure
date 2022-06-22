@@ -36,11 +36,21 @@ const AddEdit = (props) => {
                 </div>
                 <div className="add__form-group">
                     <label htmlFor="task" className="add__form-label">
-                        <img
-                            src={taskIsPriority ? Checked : Unchecked}
-                            alt={taskIsPriority ? "checked" : "unchecked"}
-                            className="add__form-checkbox"
-                        />
+                        {taskIsPriority ? (
+                            <img
+                                src={Checked}
+                                alt="checked"
+                                className="add__form-checkbox"
+                                onClick={() => setTaskIsPriority(false)}
+                            />
+                        ) : (
+                            <img
+                                src={Unchecked}
+                                alt="unchecked"
+                                className="add__form-checkbox"
+                                onClick={() => setTaskIsPriority(true)}
+                            />
+                        )}
                         <span className="add__form-checkbox-text">
                             Priority Task
                         </span>
