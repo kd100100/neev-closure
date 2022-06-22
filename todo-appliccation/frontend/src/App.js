@@ -9,7 +9,8 @@ const App = () => {
         <div className="app">
             <Header />
 			{/* <Home /> */}
-            <AddEdit />
+            {/* <AddEdit pageType="add"/> */}
+            <AddEdit pageType="edit"/>
         </div>
     );
 };
