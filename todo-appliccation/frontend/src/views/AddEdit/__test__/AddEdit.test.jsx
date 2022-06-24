@@ -57,7 +57,25 @@ test("should be able to toggle the priority checkbox", () => {
 
     userEvent.click(uncheckedCheckbox);
 
-    // expect(uncheckedCheckbox).not.toBeInTheDocument();
     const checkedCheckbox = screen.getByAltText(/checked/i);
     expect(checkedCheckbox).toBeInTheDocument();
-})
+});
+
+test("should disable add/edit button when title field is empty", () => {
+    render(<AddEdit pageType="add" />);
+
+    const submitButton = screen.getByRole("button", { name: /add/i });
+
+    expect(submitButton).toBeDisabled();
+});
+
+test("should enable add/edit button when title field is not empty", async () => {
+    render(<AddEdit pageType="add" />);
+
+    const taskTitle = screen.getByPlaceholderText(/enter task/i);
+    const submitButton = screen.getByRole("button", { name: /add/i });
+
+    await userEvent.type(taskTitle, "Todo Task");
+
+    expect(submitButton).toBeEnabled();
+});

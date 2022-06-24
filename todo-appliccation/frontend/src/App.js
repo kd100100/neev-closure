@@ -5,12 +5,18 @@ import AddEdit from "./views/AddEdit";
 import Home from "./views/Home";
 
 const App = () => {
+
     return (
         <div className="app">
             <Header />
-			{/* <Home /> */}
-            {/* <AddEdit pageType="add"/> */}
-            <AddEdit pageType="edit"/>
+            {/* <Home /> */}
+            {/* <AddEdit pageType="add" /> */}
+            <AddEdit
+                pageType="edit"
+                id="123"
+                title="Todo Task"
+                isPriority={true}
+            />
         </div>
     );
 };

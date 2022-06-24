@@ -8,6 +8,7 @@ const AddEdit = (props) => {
 
     const [taskTitle, setTaskTitle] = useState("");
     const [taskIsPriority, setTaskIsPriority] = useState(false);
+    const [buttonIsDisabled, setButtonIsDisabled] = useState(true);
 
     useEffect(() => {
         if (pageType === "edit") {
@@ -15,6 +16,11 @@ const AddEdit = (props) => {
             setTaskIsPriority(isPriority);
         }
     }, [pageType]);
+    
+    useEffect(() => {
+        if (taskTitle === "") setButtonIsDisabled(true);
+        else setButtonIsDisabled(false);
+    }, [taskTitle]);
 
     return (
         <div className="add">
@@ -57,7 +63,9 @@ const AddEdit = (props) => {
                     </label>
                 </div>
                 <div className="add__buttons">
-                    <button className="add__button">{pageType}</button>
+                    <button className="add__button" disabled={buttonIsDisabled}>
+                        {pageType}
+                    </button>
                     <button className="add__button">Cancel</button>
                 </div>
             </form>
