@@ -79,3 +79,17 @@ test("should enable add/edit button when title field is not empty", async () => 
 
     expect(submitButton).toBeEnabled();
 });
+
+test("should be able to add a task", async () => {
+    render(<AddEdit pageType="add" />);
+
+    const taskTitle = screen.getByPlaceholderText(/enter task/i);
+    const submitButton = screen.getByRole("button", { name: /add/i});
+
+    await userEvent.type(taskTitle, "Todo Task");
+    await userEvent.click(submitButton);
+
+    const alert = await screen.findByRole("alert");
+    
+    expect(alert).toHaveTextContent("Task added successfully");
+});

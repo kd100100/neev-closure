@@ -30,10 +30,12 @@
     },
     "dependencies": {
         "@testing-library/jest-dom": "^5.16.4",
+        "axios": "^0.27.2",
         "highcharts": "^10.1.0",
         "highcharts-react-official": "^3.1.0",
         "jest-cli": "^28.1.1",
         "jest-environment-jsdom": "^28.1.1",
+        "msw": "^0.42.3",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^5.2.0"
