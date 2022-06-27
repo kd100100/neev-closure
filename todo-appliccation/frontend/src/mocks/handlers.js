@@ -14,4 +14,35 @@ export const handlers = [
             })
         );
     }),
+
+    rest.get("http://localhost:8080/api/todos", (req, res, ctx) => {
+        return res(
+            ctx.json([
+                {
+                    id: "1",
+                    title: "Todo Task 1",
+                    isPriority: true,
+                    isCompleted: false,
+                    isEdited: false,
+                    createdAt: new Date(),
+                },
+                {
+                    id: "2",
+                    title: "Todo Task 2",
+                    isPriority: false,
+                    isCompleted: false,
+                    isEdited: false,
+                    createdAt: new Date(),
+                },
+                {
+                    id: "3",
+                    title: "Todo Task 3",
+                    isPriority: false,
+                    isCompleted: true,
+                    isEdited: false,
+                    createdAt: new Date(),
+                },
+            ])
+        );
+    }),
 ];
