@@ -1,5 +1,5 @@
 .taskList {
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0px 0px 50px rgba(115, 115, 115, 0.1);
     border-radius: 8px;
     padding: 0px 30px;
@@ -29,6 +29,9 @@
 }
 .task__checkbox {
     margin-right: 10px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
 }
 .task__checkbox img {
     width: 20px;

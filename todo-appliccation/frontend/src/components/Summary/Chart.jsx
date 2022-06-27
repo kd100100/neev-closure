@@ -3,8 +3,10 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 const Chart = ({ graphData, chartName }) => {
-    const pendingPercentage = graphData.pending / (graphData.pending + graphData.completed);
-    const completedPercentage = graphData.completed / (graphData.pending + graphData.completed);
+    const pendingPercentage =
+        graphData.pending / (graphData.pending + graphData.completed);
+    const completedPercentage =
+        graphData.completed / (graphData.pending + graphData.completed);
 
     const options = {
         chart: {
@@ -12,14 +14,17 @@ const Chart = ({ graphData, chartName }) => {
             plotBorderWidth: null,
             plotShadow: false,
             type: "pie",
-            height: (9 / 16 * 150) + '%',
+            height: (9 / 16) * 150 + "%",
             width: 250,
         },
         title: {
             text: "",
         },
+        accessibility: {
+            enabled: false,
+        },
         credits: {
-            enabled: false
+            enabled: false,
         },
         tooltip: {
             pointFormat: "<b>{point.percentage:.1f}%</b>",
@@ -66,9 +71,7 @@ const Chart = ({ graphData, chartName }) => {
                 <h2 className="chart__centerPercentage">
                     {completedPercentage}%
                 </h2>
-                <p className="chart__centerText">
-                    Completed
-                </p>
+                <p className="chart__centerText">Completed</p>
             </div>
             <p className="chart__title">{chartName} Tasks</p>
         </div>

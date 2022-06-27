@@ -64,7 +64,6 @@ const AddEdit = (props) => {
                 }
             })
             .catch((err) => {
-                console.log(err);
                 const closeAlert = () => {
                     setAlert(null);
                 };

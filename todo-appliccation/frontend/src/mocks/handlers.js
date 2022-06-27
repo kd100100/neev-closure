@@ -45,4 +45,18 @@ export const handlers = [
             ])
         );
     }),
+
+    rest.put("http://localhost:8080/api/todos/:id", (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json({
+                id: "1",
+                title: "Todo Task",
+                isPriority: true,
+                isCompleted: true,
+                isEdited: true,
+                createdAt: new Date(),
+            })
+        );
+    }),
 ];

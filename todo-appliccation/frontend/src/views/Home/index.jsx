@@ -11,7 +11,6 @@ const Home = () => {
         const response = useFetch("http://localhost:8080/api/todos");
 
         response.then((res) => {
-            console.log(res.data);
             setTasks(res.data);
         });
     };
