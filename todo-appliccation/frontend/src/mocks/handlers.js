@@ -59,4 +59,8 @@ export const handlers = [
             })
         );
     }),
+
+    rest.delete("http://localhost:8080/api/todos/:id", (req, res, ctx) => {
+        return res(ctx.status(200), ctx.text("Todo Deleted Successfully"));
+    }),
 ];

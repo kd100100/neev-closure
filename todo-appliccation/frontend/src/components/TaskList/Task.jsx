@@ -4,6 +4,7 @@ import Unchecked from "../../assets/images/unchecked.png";
 import Edit from "../../assets/images/edit.png";
 import Delete from "../../assets/images/delete.png";
 import useUpdate from "../../API/useUpdate";
+import useDelete from "../../API/useDelete";
 
 const Task = (props) => {
     const { id, title, isPriority, isCompleted, isEdited, createdAt, reload } =
@@ -39,6 +40,15 @@ const Task = (props) => {
         });
     };
 
+    const deleteTask = () => {
+        const url = "http://localhost:8080/api/todos/" + id;
+
+        const response = useDelete(url);
+        response.then(() => {
+            reload();
+        });
+    };
+
     return (
         <div
             className="task"
@@ -46,18 +56,20 @@ const Task = (props) => {
             style={{ backgroundColor: taskBg() }}
         >
             {isCompleted ? (
-                <button className="task__checkbox" onClick={changeTaskStatus} data-testid="task-status-btn">
-                    <img
-                        src={Checked}
-                        alt="checked"
-                    />
+                <button
+                    className="task__checkbox"
+                    onClick={changeTaskStatus}
+                    data-testid="task-status-btn"
+                >
+                    <img src={Checked} alt="checked" />
                 </button>
             ) : (
-                <button className="task__checkbox" onClick={changeTaskStatus} data-testid="task-status-btn">
-                    <img
-                        src={Unchecked}
-                        alt="unchecked"
-                    />
+                <button
+                    className="task__checkbox"
+                    onClick={changeTaskStatus}
+                    data-testid="task-status-btn"
+                >
+                    <img src={Unchecked} alt="unchecked" />
                 </button>
             )}
             <div className="task__title">
@@ -75,7 +87,12 @@ const Task = (props) => {
                     </button>
                 )}
                 <button className="task__actionButton">
-                    <img src={Delete} alt="delete" />
+                    <img
+                        src={Delete}
+                        alt="delete"
+                        data-testid="task-delete-btn"
+                        onClick={deleteTask}
+                    />
                 </button>
             </div>
         </div>

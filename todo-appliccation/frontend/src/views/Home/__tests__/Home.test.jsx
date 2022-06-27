@@ -6,5 +6,5 @@ test('should fetch tasks data and render', async () => {
 
     const taskContainers = await screen.findAllByTestId("task");
     
-    expect(taskContainers.length).toBe(4);
+    expect(taskContainers.length).toBe(3);
 })

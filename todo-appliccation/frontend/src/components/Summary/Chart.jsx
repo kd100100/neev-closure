@@ -69,7 +69,7 @@ const Chart = ({ graphData, chartName }) => {
             <HighchartsReact highcharts={Highcharts} options={options} />
             <div className="chart__center">
                 <h2 className="chart__centerPercentage">
-                    {completedPercentage}%
+                    {parseInt(completedPercentage*100)}%
                 </h2>
                 <p className="chart__centerText">Completed</p>
             </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/css/TaskList.css";
 import TaskCategory from "./TaskCategory";
-import { filterPriorityTasks, filterNonPriorityTasks, filterCompletedTasks } from "../../utils/taskFilter";
+import { filterPriorityTasks, filterNonPriorityTasks, filterCompletedTasks, filterNonCompletedTasks } from "../../utils/taskFilter";
 
 const TaskList = ({ tasks, fetchTasks }) => {
     const [priorityTasks, setPriorityTasks] = useState([]);
@@ -9,8 +9,9 @@ const TaskList = ({ tasks, fetchTasks }) => {
     const [completedTasks, setCompletedTasks] = useState([]);
 
     useEffect(() => {
-        setPriorityTasks(filterPriorityTasks(tasks));
-        setNonPriorityTasks(filterNonPriorityTasks(tasks));
+        const notCompletedTasks = filterNonCompletedTasks(tasks);
+        setPriorityTasks(filterPriorityTasks(notCompletedTasks));
+        setNonPriorityTasks(filterNonPriorityTasks(notCompletedTasks));
         setCompletedTasks(filterCompletedTasks(tasks));
     }, [tasks]);
 
