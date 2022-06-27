@@ -21,7 +21,6 @@
 .task {
     display: flex;
     align-items: center;
-    background-color: rgba(242, 84, 45, 0.3);
     border-radius: 8px;
     padding: 12px 20px;
     font-size: larger;
