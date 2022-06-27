@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../../API/useFetch";
 import "../../assets/css/TaskList.css";
 import TaskCategory from "./TaskCategory";
+import { filterPriorityTasks, filterNonPriorityTasks, filterCompletedTasks } from "../../utils/taskFilter";
 
 const TaskList = () => {
     const [tasks, setTasks] = useState([]);
@@ -23,12 +24,16 @@ const TaskList = () => {
     }, []);
 
     useEffect(() => {
-        console.log(tasks);
+        setPriorityTasks(filterPriorityTasks(tasks));
+        setNonPriorityTasks(filterNonPriorityTasks(tasks));
+        setCompletedTasks(filterCompletedTasks(tasks));
     }, [tasks]);
 
     return (
         <div className="taskList">
-            <TaskCategory tasks={tasks} />
+            <TaskCategory tasks={priorityTasks} categoryName="priority" reload={fetchTasks} />
+            <TaskCategory tasks={nonPriorityTasks} categoryName="non-priority" reload={fetchTasks} />
+            <TaskCategory tasks={completedTasks} categoryName="completed" reload={fetchTasks} />
         </div>
     );
 };

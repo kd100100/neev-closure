@@ -5,7 +5,7 @@ import Edit from "../../assets/images/edit.png";
 import Delete from "../../assets/images/delete.png";
 
 const Task = (props) => {
-    const { isCompleted, isPriority } = props;
+    const { id, title, isPriority, isCompleted, isEdited, createdAt, reload } = props;
 
     const taskBg = () => {
         if (isCompleted) return "rgba(202, 202, 202, 0.3)";
@@ -38,7 +38,7 @@ const Task = (props) => {
                     className="task__titleText"
                     style={{ textDecoration: taskTitle() }}
                 >
-                    Task Title
+                    {title}
                 </span>
             </div>
             <div className="task__actionButtons">
