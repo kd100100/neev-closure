@@ -2,7 +2,10 @@ import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-const Chart = () => {
+const Chart = ({ graphData, chartName }) => {
+    const pendingPercentage = graphData.pending / (graphData.pending + graphData.completed);
+    const completedPercentage = graphData.completed / (graphData.pending + graphData.completed);
+
     const options = {
         chart: {
             plotBackgroundColor: null,
@@ -41,13 +44,13 @@ const Chart = () => {
                 data: [
                     {
                         name: "Completed",
-                        y: 61.41,
+                        y: completedPercentage,
                         // color: "#00bcd4",
                         color: "rgba(14, 149, 148, 1)",
                     },
                     {
                         name: "Pending",
-                        y: 11.84,
+                        y: pendingPercentage,
                         color: "rgba(242, 84, 45, 1)",
                     },
                 ],
@@ -61,13 +64,13 @@ const Chart = () => {
             <HighchartsReact highcharts={Highcharts} options={options} />
             <div className="chart__center">
                 <h2 className="chart__centerPercentage">
-                    61%
+                    {completedPercentage}%
                 </h2>
                 <p className="chart__centerText">
                     Completed
                 </p>
             </div>
-            <p className="chart__title">All Tasks</p>
+            <p className="chart__title">{chartName} Tasks</p>
         </div>
     );
 };
