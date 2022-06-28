@@ -7,8 +7,17 @@ import useUpdate from "../../API/useUpdate";
 import useDelete from "../../API/useDelete";
 
 const Task = (props) => {
-    const { id, title, isPriority, isCompleted, isEdited, createdAt, reload } =
-        props;
+    const {
+        id,
+        title,
+        isPriority,
+        isCompleted,
+        isEdited,
+        createdAt,
+        reload,
+        setPage,
+        setEditingId,
+    } = props;
 
     const taskBg = () => {
         if (isCompleted) return "rgba(202, 202, 202, 0.3)";
@@ -82,7 +91,13 @@ const Task = (props) => {
             </div>
             <div className="task__actionButtons">
                 {!isCompleted && (
-                    <button className="task__actionButton">
+                    <button
+                        className="task__actionButton"
+                        onClick={() => {
+                            setPage("edit");
+                            setEditingId(id);
+                        }}
+                    >
                         <img src={Edit} alt="edit" />
                     </button>
                 )}

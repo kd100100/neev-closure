@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AddEdit from "../index";
 
@@ -29,23 +29,6 @@ test("should have default form values as empty when adding", () => {
     const checkbox = screen.getByAltText(/unchecked/i);
 
     expect(taskTitle).toHaveValue("");
-    expect(checkbox).toBeInTheDocument();
-});
-
-test("should have default form values as todo details when editing", () => {
-    render(
-        <AddEdit
-            pageType="edit"
-            id="123"
-            title="Todo Task"
-            isPriority={false}
-        />
-    );
-
-    const taskTitle = screen.getByPlaceholderText(/enter task/i);
-    const checkbox = screen.getByAltText(/unchecked/i);
-
-    expect(taskTitle).toHaveValue("Todo Task");
     expect(checkbox).toBeInTheDocument();
 });
 
@@ -84,12 +67,26 @@ test("should be able to add a task", async () => {
     render(<AddEdit pageType="add" />);
 
     const taskTitle = screen.getByPlaceholderText(/enter task/i);
-    const submitButton = screen.getByRole("button", { name: /add/i});
+    const submitButton = screen.getByRole("button", { name: /add/i });
 
     await userEvent.type(taskTitle, "Todo Task");
     await userEvent.click(submitButton);
 
     const alert = await screen.findByRole("alert");
-    
+
     expect(alert).toHaveTextContent("Task added successfully");
+});
+
+test("should be able to edit a task", async () => {
+    render(<AddEdit pageType="edit" taskId="1" />);
+
+    const taskTitle = screen.getByPlaceholderText(/enter task/i);
+    const submitButton = screen.getByRole("button", { name: /edit/i });
+
+    await userEvent.type(taskTitle, "1");
+    await userEvent.click(submitButton);
+
+    const alert = await screen.findByRole("alert");
+
+    expect(alert).toHaveTextContent("Task edited successfully");
 });

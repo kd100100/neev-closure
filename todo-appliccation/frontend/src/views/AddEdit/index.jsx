@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAdd from "../../API/useAdd";
+import useFetch from "../../API/useFetch";
+import useUpdate from "../../API/useUpdate";
 import "../../assets/css/AddEdit.css";
 import Checked from "../../assets/images/checked.png";
 import Unchecked from "../../assets/images/unchecked.png";
 import Alert from "../../components/Alert";
 
 const AddEdit = (props) => {
-    const { pageType, id, title, isPriority } = props;
+    const { pageType, editingId, setPage } = props;
 
     const [taskTitle, setTaskTitle] = useState("");
     const [taskIsPriority, setTaskIsPriority] = useState(false);
@@ -15,8 +17,13 @@ const AddEdit = (props) => {
 
     useEffect(() => {
         if (pageType === "edit") {
-            setTaskTitle(title);
-            setTaskIsPriority(isPriority);
+            const url = "http://localhost:8080/api/todos/" + editingId;
+            const response = useFetch(url);
+
+            response.then((res) => {
+                setTaskTitle(res.data.title);
+                setTaskIsPriority(res.data.isPriority);
+            });
         }
     }, [pageType]);
 
@@ -32,11 +39,15 @@ const AddEdit = (props) => {
             title: taskTitle,
             isPriority: taskIsPriority,
             isCompleted: false,
-            isEdited: false,
+            isEdited: pageType === "edit",
             createdAt: new Date(),
         };
 
-        addTask(todoDetails);
+        if (pageType === "add") addTask(todoDetails);
+        else {
+            todoDetails.id = editingId;
+            editTask(todoDetails);
+        }
     };
 
     function addTask(todoDetails) {
@@ -46,7 +57,7 @@ const AddEdit = (props) => {
             .then((res) => {
                 if (res.status === 201) {
                     const navigateToHome = () => {
-                        // history.push("/");
+                        setPage("home");
                     };
                     setAlert(
                         <Alert
@@ -60,6 +71,39 @@ const AddEdit = (props) => {
                     };
                     setAlert(
                         <Alert message="Task not added" onClose={closeAlert} />
+                    );
+                }
+            })
+            .catch((err) => {
+                const closeAlert = () => {
+                    setAlert(null);
+                };
+                setAlert(<Alert message={err.message} onClose={closeAlert} />);
+            });
+    }
+
+    function editTask(todoDetails) {
+        const url = "http://localhost:8080/api/todos/" + editingId;
+        const response = useUpdate(url, todoDetails);
+
+        response
+            .then((res) => {
+                if (res.status === 200) {
+                    const navigateToHome = () => {
+                        setPage("home");
+                    };
+                    setAlert(
+                        <Alert
+                            message="Task edited successfully"
+                            onClose={navigateToHome}
+                        />
+                    );
+                } else {
+                    const closeAlert = () => {
+                        setAlert(null);
+                    };
+                    setAlert(
+                        <Alert message="Task not edited" onClose={closeAlert} />
                     );
                 }
             })
@@ -121,7 +165,12 @@ const AddEdit = (props) => {
                     >
                         {pageType}
                     </button>
-                    <button className="add__button">Cancel</button>
+                    <button
+                        className="add__button"
+                        onClick={() => setPage("home")}
+                    >
+                        Cancel
+                    </button>
                 </div>
             </form>
         </div>

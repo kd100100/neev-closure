@@ -1,4 +1,5 @@
 const path = require("path");
+const port = process.env.PORT || 3000;
 
 module.exports = {
     mode: "development",
@@ -9,11 +10,13 @@ module.exports = {
     },
     target: "web",
     devServer: {
-        port: "3000",
+        host: "localhost",
+        port: port,
         static: ["./public"],
         open: true,
         hot: true,
         liveReload: true,
+        historyApiFallback: true,
     },
     resolve: {
         extensions: [".js", ".jsx", ".json", ".ts", ".tsx"],

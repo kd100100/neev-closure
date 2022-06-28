@@ -4,7 +4,7 @@ import "../../assets/css/Home.css";
 import Summary from "../../components/Summary";
 import TaskList from "../../components/TaskList";
 
-const Home = () => {
+const Home = ({ setPage, setEditingId }) => {
     const [tasks, setTasks] = useState([]);
 
     const fetchTasks = () => {
@@ -23,7 +23,7 @@ const Home = () => {
         <div className="home">
             {/* Tasks List */}
             <div className="home__tasksList">
-                <TaskList tasks={tasks} fetchTasks={fetchTasks} />
+                <TaskList tasks={tasks} fetchTasks={fetchTasks} setPage={setPage} setEditingId={setEditingId} />
             </div>
 
             {/* Summaries */}
